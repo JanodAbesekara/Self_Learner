@@ -1,0 +1,90 @@
+[
+    {
+        "label": "PyPDF2",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "PyPDF2",
+        "description": "PyPDF2",
+        "detail": "PyPDF2",
+        "documentation": {}
+    },
+    {
+        "label": "HuggingFaceEmbeddings",
+        "importPath": "langchain_huggingface",
+        "description": "langchain_huggingface",
+        "isExtraImport": true,
+        "detail": "langchain_huggingface",
+        "documentation": {}
+    },
+    {
+        "label": "Chroma",
+        "importPath": "langchain_community.vectorstores",
+        "description": "langchain_community.vectorstores",
+        "isExtraImport": true,
+        "detail": "langchain_community.vectorstores",
+        "documentation": {}
+    },
+    {
+        "label": "embed_data",
+        "kind": 2,
+        "importPath": "Import",
+        "description": "Import",
+        "peekOfCode": "def embed_data(data, embeddings):\n    return embeddings.embed_documents(data)  \n# Instantiate the HuggingFaceEmbeddings model\nembeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\n# Embed the extracted PDF text\nembedded_texts = embed_data(all_text, embeddings)\n# Initialize the Chroma vector store with the embeddings and original text\nvector_store = Chroma.from_texts(texts=all_text, embedding=embeddings, persist_directory=\"AssignmentDB\")\n# Use the correct method to interact with the Chroma vector store\ndocument_count = vector_store._collection.count()",
+        "detail": "Import",
+        "documentation": {}
+    },
+    {
+        "label": "ExampleP",
+        "kind": 5,
+        "importPath": "Import",
+        "description": "Import",
+        "peekOfCode": "ExampleP = 'SE-Lesson1.pdf'\nall_text = []\nwith open(ExampleP, 'rb') as pdffile:\n    reader = PyPDF2.PdfReader(pdffile)\n    # Extract text from each page and store in a list\n    for pagenum in range(len(reader.pages)):\n        page = reader.pages[pagenum]\n        text = page.extract_text()\n        all_text.append(text)  \n# Embedding function to embed the data",
+        "detail": "Import",
+        "documentation": {}
+    },
+    {
+        "label": "all_text",
+        "kind": 5,
+        "importPath": "Import",
+        "description": "Import",
+        "peekOfCode": "all_text = []\nwith open(ExampleP, 'rb') as pdffile:\n    reader = PyPDF2.PdfReader(pdffile)\n    # Extract text from each page and store in a list\n    for pagenum in range(len(reader.pages)):\n        page = reader.pages[pagenum]\n        text = page.extract_text()\n        all_text.append(text)  \n# Embedding function to embed the data\ndef embed_data(data, embeddings):",
+        "detail": "Import",
+        "documentation": {}
+    },
+    {
+        "label": "embeddings",
+        "kind": 5,
+        "importPath": "Import",
+        "description": "Import",
+        "peekOfCode": "embeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\n# Embed the extracted PDF text\nembedded_texts = embed_data(all_text, embeddings)\n# Initialize the Chroma vector store with the embeddings and original text\nvector_store = Chroma.from_texts(texts=all_text, embedding=embeddings, persist_directory=\"AssignmentDB\")\n# Use the correct method to interact with the Chroma vector store\ndocument_count = vector_store._collection.count()\nprint(f\"Total number of documents stored: {document_count}\")\nprint(\"Vector store initialized and stored in 'AssignmentDB' directory.\")",
+        "detail": "Import",
+        "documentation": {}
+    },
+    {
+        "label": "embedded_texts",
+        "kind": 5,
+        "importPath": "Import",
+        "description": "Import",
+        "peekOfCode": "embedded_texts = embed_data(all_text, embeddings)\n# Initialize the Chroma vector store with the embeddings and original text\nvector_store = Chroma.from_texts(texts=all_text, embedding=embeddings, persist_directory=\"AssignmentDB\")\n# Use the correct method to interact with the Chroma vector store\ndocument_count = vector_store._collection.count()\nprint(f\"Total number of documents stored: {document_count}\")\nprint(\"Vector store initialized and stored in 'AssignmentDB' directory.\")",
+        "detail": "Import",
+        "documentation": {}
+    },
+    {
+        "label": "vector_store",
+        "kind": 5,
+        "importPath": "Import",
+        "description": "Import",
+        "peekOfCode": "vector_store = Chroma.from_texts(texts=all_text, embedding=embeddings, persist_directory=\"AssignmentDB\")\n# Use the correct method to interact with the Chroma vector store\ndocument_count = vector_store._collection.count()\nprint(f\"Total number of documents stored: {document_count}\")\nprint(\"Vector store initialized and stored in 'AssignmentDB' directory.\")",
+        "detail": "Import",
+        "documentation": {}
+    },
+    {
+        "label": "document_count",
+        "kind": 5,
+        "importPath": "Import",
+        "description": "Import",
+        "peekOfCode": "document_count = vector_store._collection.count()\nprint(f\"Total number of documents stored: {document_count}\")\nprint(\"Vector store initialized and stored in 'AssignmentDB' directory.\")",
+        "detail": "Import",
+        "documentation": {}
+    }
+]
