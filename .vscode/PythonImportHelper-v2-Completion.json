@@ -10,6 +10,65 @@
     },
     {
         "label": "HuggingFaceEmbeddings",
+        "importPath": "langchain_community.embeddings",
+        "description": "langchain_community.embeddings",
+        "isExtraImport": true,
+        "detail": "langchain_community.embeddings",
+        "documentation": {}
+    },
+    {
+        "label": "for Chroma",
+        "importPath": "langchain_chroma import Chroma  # Updated",
+        "description": "langchain_chroma import Chroma  # Updated",
+        "isExtraImport": true,
+        "detail": "langchain_chroma import Chroma  # Updated",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "signal",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "signal",
+        "description": "signal",
+        "detail": "signal",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "HuggingFaceEmbeddings",
         "importPath": "langchain_huggingface",
         "description": "langchain_huggingface",
         "isExtraImport": true,
@@ -18,10 +77,19 @@
     },
     {
         "label": "Chroma",
-        "importPath": "langchain_community.vectorstores",
-        "description": "langchain_community.vectorstores",
+        "importPath": "langchain_chroma",
+        "description": "langchain_chroma",
         "isExtraImport": true,
-        "detail": "langchain_community.vectorstores",
+        "detail": "langchain_chroma",
+        "documentation": {}
+    },
+    {
+        "label": "google.generativeai",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "google.generativeai",
+        "description": "google.generativeai",
+        "detail": "google.generativeai",
         "documentation": {}
     },
     {
@@ -29,7 +97,7 @@
         "kind": 2,
         "importPath": "Import",
         "description": "Import",
-        "peekOfCode": "def embed_data(data, embeddings):\n    return embeddings.embed_documents(data)  \n# Instantiate the HuggingFaceEmbeddings model\nembeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\n# Embed the extracted PDF text\nembedded_texts = embed_data(all_text, embeddings)\n# Initialize the Chroma vector store with the embeddings and original text\nvector_store = Chroma.from_texts(texts=all_text, embedding=embeddings, persist_directory=\"AssignmentDB\")\n# Use the correct method to interact with the Chroma vector store\ndocument_count = vector_store._collection.count()",
+        "peekOfCode": "def embed_data(data, embeddings):\n    return embeddings.embed_documents(data)  \n# Instantiate the HuggingFaceEmbeddings model\nembeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\n# Embed the extracted PDF text\nembedded_texts = embed_data(all_text, embeddings)\n# # Print each embedded vector\n# for i, vector in enumerate(embedded_texts):\n#     print(f\"Vector for Page {i + 1}: {vector}\\n\")\n# Initialize the Chroma vector store with the embeddings and original text",
         "detail": "Import",
         "documentation": {}
     },
@@ -56,7 +124,7 @@
         "kind": 5,
         "importPath": "Import",
         "description": "Import",
-        "peekOfCode": "embeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\n# Embed the extracted PDF text\nembedded_texts = embed_data(all_text, embeddings)\n# Initialize the Chroma vector store with the embeddings and original text\nvector_store = Chroma.from_texts(texts=all_text, embedding=embeddings, persist_directory=\"AssignmentDB\")\n# Use the correct method to interact with the Chroma vector store\ndocument_count = vector_store._collection.count()\nprint(f\"Total number of documents stored: {document_count}\")\nprint(\"Vector store initialized and stored in 'AssignmentDB' directory.\")",
+        "peekOfCode": "embeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\n# Embed the extracted PDF text\nembedded_texts = embed_data(all_text, embeddings)\n# # Print each embedded vector\n# for i, vector in enumerate(embedded_texts):\n#     print(f\"Vector for Page {i + 1}: {vector}\\n\")\n# Initialize the Chroma vector store with the embeddings and original text\nvector_store = Chroma.from_texts(texts=all_text, embedding=embeddings, persist_directory=\"AssignmentDB\")\n# Use the correct method to interact with the Chroma vector store\ndocument_count = vector_store._collection.count()",
         "detail": "Import",
         "documentation": {}
     },
@@ -65,7 +133,7 @@
         "kind": 5,
         "importPath": "Import",
         "description": "Import",
-        "peekOfCode": "embedded_texts = embed_data(all_text, embeddings)\n# Initialize the Chroma vector store with the embeddings and original text\nvector_store = Chroma.from_texts(texts=all_text, embedding=embeddings, persist_directory=\"AssignmentDB\")\n# Use the correct method to interact with the Chroma vector store\ndocument_count = vector_store._collection.count()\nprint(f\"Total number of documents stored: {document_count}\")\nprint(\"Vector store initialized and stored in 'AssignmentDB' directory.\")",
+        "peekOfCode": "embedded_texts = embed_data(all_text, embeddings)\n# # Print each embedded vector\n# for i, vector in enumerate(embedded_texts):\n#     print(f\"Vector for Page {i + 1}: {vector}\\n\")\n# Initialize the Chroma vector store with the embeddings and original text\nvector_store = Chroma.from_texts(texts=all_text, embedding=embeddings, persist_directory=\"AssignmentDB\")\n# Use the correct method to interact with the Chroma vector store\ndocument_count = vector_store._collection.count()\nprint(f\"Total number of documents stored: {document_count}\")\nprint(\"Vector store initialized and stored in 'AssignmentDB' directory.\")",
         "detail": "Import",
         "documentation": {}
     },
@@ -85,6 +153,123 @@
         "description": "Import",
         "peekOfCode": "document_count = vector_store._collection.count()\nprint(f\"Total number of documents stored: {document_count}\")\nprint(\"Vector store initialized and stored in 'AssignmentDB' directory.\")",
         "detail": "Import",
+        "documentation": {}
+    },
+    {
+        "label": "QueryResult",
+        "kind": 6,
+        "importPath": "Output",
+        "description": "Output",
+        "peekOfCode": "class QueryResult(BaseModel):\n    query: str\n# Define prompt generation function\ndef generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', ' ').replace('\\n', ' ')\n    prompt = f\"\"\"\nYou are a knowledgeable academic assistant helping students understand course material. Based on the extracted information from the provided course material PDF, answer the following query with accuracy and reliability:\nQuestion: {query}\nProvide a clear, detailed answer with relevant information and concepts from the material. Aim to offer a complete explanation that will help the student gain a solid understanding of the topic.\n    \"\"\"",
+        "detail": "Output",
+        "documentation": {}
+    },
+    {
+        "label": "signal_handler",
+        "kind": 2,
+        "importPath": "Output",
+        "description": "Output",
+        "peekOfCode": "def signal_handler(sig, frame):\n    print('You pressed Ctrl+C!')\n    sys.exit(0)\nsignal.signal(signal.SIGINT, signal_handler)\nclass QueryResult(BaseModel):\n    query: str\n# Define prompt generation function\ndef generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', ' ').replace('\\n', ' ')\n    prompt = f\"\"\"",
+        "detail": "Output",
+        "documentation": {}
+    },
+    {
+        "label": "generate_rag_prompt",
+        "kind": 2,
+        "importPath": "Output",
+        "description": "Output",
+        "peekOfCode": "def generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', ' ').replace('\\n', ' ')\n    prompt = f\"\"\"\nYou are a knowledgeable academic assistant helping students understand course material. Based on the extracted information from the provided course material PDF, answer the following query with accuracy and reliability:\nQuestion: {query}\nProvide a clear, detailed answer with relevant information and concepts from the material. Aim to offer a complete explanation that will help the student gain a solid understanding of the topic.\n    \"\"\"\n    return prompt\n# Define a function to embed and store initial data for queries\ndef initialize_vector_db(texts):",
+        "detail": "Output",
+        "documentation": {}
+    },
+    {
+        "label": "initialize_vector_db",
+        "kind": 2,
+        "importPath": "Output",
+        "description": "Output",
+        "peekOfCode": "def initialize_vector_db(texts):\n    # Create the embeddings and vector store only if there is actual text content\n    embeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\n    vector_db = Chroma.from_texts(texts=texts, embedding=embeddings, persist_directory=\"./AssignmentDB\")\n    return vector_db\n# Function to retrieve relevant context from the database\ndef get_relative_context_fromDB(query, vector_db):\n    context = \"\"\n    # Perform similarity search for relevant text\n    search_results = vector_db.similarity_search(query, k=6)",
+        "detail": "Output",
+        "documentation": {}
+    },
+    {
+        "label": "get_relative_context_fromDB",
+        "kind": 2,
+        "importPath": "Output",
+        "description": "Output",
+        "peekOfCode": "def get_relative_context_fromDB(query, vector_db):\n    context = \"\"\n    # Perform similarity search for relevant text\n    search_results = vector_db.similarity_search(query, k=6)\n    for result in search_results:\n        context += result.page_content + \"\\n\"\n    return context\n# Generate an answer based on the prompt\ndef generate_answer(prompt):\n    model = genai.GenerativeModel(model_name=\"gemini-1.5-flash\")",
+        "detail": "Output",
+        "documentation": {}
+    },
+    {
+        "label": "generate_answer",
+        "kind": 2,
+        "importPath": "Output",
+        "description": "Output",
+        "peekOfCode": "def generate_answer(prompt):\n    model = genai.GenerativeModel(model_name=\"gemini-1.5-flash\")\n    response = model.generate_content(prompt)\n    return response.text\n# Main program loop\nprint(\"Enter your query: \")\nquery = input()\n# Sample text content to initialize the vector DB\n# Replace this with actual content extracted from a PDF or other sources\nsample_texts = [",
+        "detail": "Output",
+        "documentation": {}
+    },
+    {
+        "label": "Google_API_key",
+        "kind": 5,
+        "importPath": "Output",
+        "description": "Output",
+        "peekOfCode": "Google_API_key = os.getenv(\"GEMINI_API\")\ngenai.configure(api_key=Google_API_key)\n# Signal handler for clean exit\ndef signal_handler(sig, frame):\n    print('You pressed Ctrl+C!')\n    sys.exit(0)\nsignal.signal(signal.SIGINT, signal_handler)\nclass QueryResult(BaseModel):\n    query: str\n# Define prompt generation function",
+        "detail": "Output",
+        "documentation": {}
+    },
+    {
+        "label": "query",
+        "kind": 5,
+        "importPath": "Output",
+        "description": "Output",
+        "peekOfCode": "query = input()\n# Sample text content to initialize the vector DB\n# Replace this with actual content extracted from a PDF or other sources\nsample_texts = [\n    \"Introduction to programming and data structures.\",\n    \"Advanced concepts in machine learning and artificial intelligence.\",\n    \"Principles of software engineering and project management.\"\n]\n# Initialize the vector DB with sample content\nvector_db = initialize_vector_db(sample_texts)",
+        "detail": "Output",
+        "documentation": {}
+    },
+    {
+        "label": "sample_texts",
+        "kind": 5,
+        "importPath": "Output",
+        "description": "Output",
+        "peekOfCode": "sample_texts = [\n    \"Introduction to programming and data structures.\",\n    \"Advanced concepts in machine learning and artificial intelligence.\",\n    \"Principles of software engineering and project management.\"\n]\n# Initialize the vector DB with sample content\nvector_db = initialize_vector_db(sample_texts)\n# Get context from the vector DB\ncontext = get_relative_context_fromDB(query, vector_db)\n# Generate a response",
+        "detail": "Output",
+        "documentation": {}
+    },
+    {
+        "label": "vector_db",
+        "kind": 5,
+        "importPath": "Output",
+        "description": "Output",
+        "peekOfCode": "vector_db = initialize_vector_db(sample_texts)\n# Get context from the vector DB\ncontext = get_relative_context_fromDB(query, vector_db)\n# Generate a response\nprompt = generate_rag_prompt(query, context)\nresponse = generate_answer(prompt)\nprint(response)",
+        "detail": "Output",
+        "documentation": {}
+    },
+    {
+        "label": "context",
+        "kind": 5,
+        "importPath": "Output",
+        "description": "Output",
+        "peekOfCode": "context = get_relative_context_fromDB(query, vector_db)\n# Generate a response\nprompt = generate_rag_prompt(query, context)\nresponse = generate_answer(prompt)\nprint(response)",
+        "detail": "Output",
+        "documentation": {}
+    },
+    {
+        "label": "prompt",
+        "kind": 5,
+        "importPath": "Output",
+        "description": "Output",
+        "peekOfCode": "prompt = generate_rag_prompt(query, context)\nresponse = generate_answer(prompt)\nprint(response)",
+        "detail": "Output",
+        "documentation": {}
+    },
+    {
+        "label": "response",
+        "kind": 5,
+        "importPath": "Output",
+        "description": "Output",
+        "peekOfCode": "response = generate_answer(prompt)\nprint(response)",
+        "detail": "Output",
         "documentation": {}
     }
 ]
