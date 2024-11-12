@@ -160,7 +160,7 @@
         "kind": 6,
         "importPath": "Output",
         "description": "Output",
-        "peekOfCode": "class QueryResult(BaseModel):\n    query: str\n# Define prompt generation function\ndef generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', ' ').replace('\\n', ' ')\n    prompt = f\"\"\"\nYou are a knowledgeable academic assistant helping students understand course material. Based on the extracted information from the provided course material PDF, answer the following query with accuracy and reliability:\nQuestion: {query}\nProvide a clear, detailed answer with relevant information and concepts from the material. Aim to offer a complete explanation that will help the student gain a solid understanding of the topic.\n    \"\"\"",
+        "peekOfCode": "class QueryResult(BaseModel):\n    query: str\n# Define prompt generation function\ndef generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', ' ').replace('\\n', ' ')\n    prompt = f\"\"\"\nBased on the extracted information, answer the following question directly and in a focused manner:\nQuestion: {query}\nAnswer:\n    \"\"\"",
         "detail": "Output",
         "documentation": {}
     },
@@ -169,7 +169,7 @@
         "kind": 2,
         "importPath": "Output",
         "description": "Output",
-        "peekOfCode": "def signal_handler(sig, frame):\n    print('You pressed Ctrl+C!')\n    sys.exit(0)\nsignal.signal(signal.SIGINT, signal_handler)\nclass QueryResult(BaseModel):\n    query: str\n# Define prompt generation function\ndef generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', ' ').replace('\\n', ' ')\n    prompt = f\"\"\"",
+        "peekOfCode": "def signal_handler(sig, frame):\n    print('You pressed Ctrl+C! Exiting program.')\n    sys.exit(0)\nsignal.signal(signal.SIGINT, signal_handler)\n# Define data model for query result\nclass QueryResult(BaseModel):\n    query: str\n# Define prompt generation function\ndef generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', ' ').replace('\\n', ' ')",
         "detail": "Output",
         "documentation": {}
     },
@@ -178,7 +178,7 @@
         "kind": 2,
         "importPath": "Output",
         "description": "Output",
-        "peekOfCode": "def generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', ' ').replace('\\n', ' ')\n    prompt = f\"\"\"\nYou are a knowledgeable academic assistant helping students understand course material. Based on the extracted information from the provided course material PDF, answer the following query with accuracy and reliability:\nQuestion: {query}\nProvide a clear, detailed answer with relevant information and concepts from the material. Aim to offer a complete explanation that will help the student gain a solid understanding of the topic.\n    \"\"\"\n    return prompt\n# Define a function to embed and store initial data for queries\ndef initialize_vector_db(texts):",
+        "peekOfCode": "def generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', ' ').replace('\\n', ' ')\n    prompt = f\"\"\"\nBased on the extracted information, answer the following question directly and in a focused manner:\nQuestion: {query}\nAnswer:\n    \"\"\"\n    return prompt\n# Define a function to embed and store initial data for queries\ndef initialize_vector_db(texts):",
         "detail": "Output",
         "documentation": {}
     },
@@ -187,7 +187,7 @@
         "kind": 2,
         "importPath": "Output",
         "description": "Output",
-        "peekOfCode": "def initialize_vector_db(texts):\n    # Create the embeddings and vector store only if there is actual text content\n    embeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\n    vector_db = Chroma.from_texts(texts=texts, embedding=embeddings, persist_directory=\"./AssignmentDB\")\n    return vector_db\n# Function to retrieve relevant context from the database\ndef get_relative_context_fromDB(query, vector_db):\n    context = \"\"\n    # Perform similarity search for relevant text\n    search_results = vector_db.similarity_search(query, k=6)",
+        "peekOfCode": "def initialize_vector_db(texts):\n    if not texts:\n        print(\"Error: No texts provided to initialize the vector database.\")\n        sys.exit(1)\n    try:\n        embeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\n        vector_db = Chroma.from_texts(texts=texts, embedding=embeddings, persist_directory=\"./AssignmentDB\")\n        return vector_db\n    except Exception as e:\n        print(f\"Error initializing vector database: {e}\")",
         "detail": "Output",
         "documentation": {}
     },
@@ -196,7 +196,7 @@
         "kind": 2,
         "importPath": "Output",
         "description": "Output",
-        "peekOfCode": "def get_relative_context_fromDB(query, vector_db):\n    context = \"\"\n    # Perform similarity search for relevant text\n    search_results = vector_db.similarity_search(query, k=6)\n    for result in search_results:\n        context += result.page_content + \"\\n\"\n    return context\n# Generate an answer based on the prompt\ndef generate_answer(prompt):\n    model = genai.GenerativeModel(model_name=\"gemini-1.5-flash\")",
+        "peekOfCode": "def get_relative_context_fromDB(query, vector_db):\n    context = \"\"\n    try:\n        search_results = vector_db.similarity_search(query, k=6)\n        for result in search_results:\n            context += result.page_content + \"\\n\"\n    except Exception as e:\n        print(f\"Error retrieving context from database: {e}\")\n    return context\n# Generate an answer based on the prompt",
         "detail": "Output",
         "documentation": {}
     },
@@ -205,7 +205,7 @@
         "kind": 2,
         "importPath": "Output",
         "description": "Output",
-        "peekOfCode": "def generate_answer(prompt):\n    model = genai.GenerativeModel(model_name=\"gemini-1.5-flash\")\n    response = model.generate_content(prompt)\n    return response.text\n# Main program loop\nprint(\"Enter your query: \")\nquery = input()\n# Sample text content to initialize the vector DB\n# Replace this with actual content extracted from a PDF or other sources\nsample_texts = [",
+        "peekOfCode": "def generate_answer(prompt):\n    try:\n        model = genai.GenerativeModel(model_name=\"gemini-1.5-flash\")\n        response = model.generate_content(prompt)\n        return response.text.strip() if response and response.text else \"No response generated.\"\n    except Exception as e:\n        return f\"Error generating answer: {e}\"\n# Main program loop\nif __name__ == \"__main__\":\n    # Prompt the user for a query",
         "detail": "Output",
         "documentation": {}
     },
@@ -214,61 +214,7 @@
         "kind": 5,
         "importPath": "Output",
         "description": "Output",
-        "peekOfCode": "Google_API_key = os.getenv(\"GEMINI_API\")\ngenai.configure(api_key=Google_API_key)\n# Signal handler for clean exit\ndef signal_handler(sig, frame):\n    print('You pressed Ctrl+C!')\n    sys.exit(0)\nsignal.signal(signal.SIGINT, signal_handler)\nclass QueryResult(BaseModel):\n    query: str\n# Define prompt generation function",
-        "detail": "Output",
-        "documentation": {}
-    },
-    {
-        "label": "query",
-        "kind": 5,
-        "importPath": "Output",
-        "description": "Output",
-        "peekOfCode": "query = input()\n# Sample text content to initialize the vector DB\n# Replace this with actual content extracted from a PDF or other sources\nsample_texts = [\n    \"Introduction to programming and data structures.\",\n    \"Advanced concepts in machine learning and artificial intelligence.\",\n    \"Principles of software engineering and project management.\"\n]\n# Initialize the vector DB with sample content\nvector_db = initialize_vector_db(sample_texts)",
-        "detail": "Output",
-        "documentation": {}
-    },
-    {
-        "label": "sample_texts",
-        "kind": 5,
-        "importPath": "Output",
-        "description": "Output",
-        "peekOfCode": "sample_texts = [\n    \"Introduction to programming and data structures.\",\n    \"Advanced concepts in machine learning and artificial intelligence.\",\n    \"Principles of software engineering and project management.\"\n]\n# Initialize the vector DB with sample content\nvector_db = initialize_vector_db(sample_texts)\n# Get context from the vector DB\ncontext = get_relative_context_fromDB(query, vector_db)\n# Generate a response",
-        "detail": "Output",
-        "documentation": {}
-    },
-    {
-        "label": "vector_db",
-        "kind": 5,
-        "importPath": "Output",
-        "description": "Output",
-        "peekOfCode": "vector_db = initialize_vector_db(sample_texts)\n# Get context from the vector DB\ncontext = get_relative_context_fromDB(query, vector_db)\n# Generate a response\nprompt = generate_rag_prompt(query, context)\nresponse = generate_answer(prompt)\nprint(response)",
-        "detail": "Output",
-        "documentation": {}
-    },
-    {
-        "label": "context",
-        "kind": 5,
-        "importPath": "Output",
-        "description": "Output",
-        "peekOfCode": "context = get_relative_context_fromDB(query, vector_db)\n# Generate a response\nprompt = generate_rag_prompt(query, context)\nresponse = generate_answer(prompt)\nprint(response)",
-        "detail": "Output",
-        "documentation": {}
-    },
-    {
-        "label": "prompt",
-        "kind": 5,
-        "importPath": "Output",
-        "description": "Output",
-        "peekOfCode": "prompt = generate_rag_prompt(query, context)\nresponse = generate_answer(prompt)\nprint(response)",
-        "detail": "Output",
-        "documentation": {}
-    },
-    {
-        "label": "response",
-        "kind": 5,
-        "importPath": "Output",
-        "description": "Output",
-        "peekOfCode": "response = generate_answer(prompt)\nprint(response)",
+        "peekOfCode": "Google_API_key = os.getenv(\"GEMINI_API\")\nif Google_API_key:\n    genai.configure(api_key=Google_API_key)\nelse:\n    print(\"Error: Google API key not found. Please set GEMINI_API in the environment.\")\n    sys.exit(1)\n# Signal handler for clean exit\ndef signal_handler(sig, frame):\n    print('You pressed Ctrl+C! Exiting program.')\n    sys.exit(0)",
         "detail": "Output",
         "documentation": {}
     }
