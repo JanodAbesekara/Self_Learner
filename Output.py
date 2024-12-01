@@ -20,7 +20,7 @@ else:
 
 # Signal handler for clean exit
 def signal_handler(sig, frame):
-    print('You pressed Ctrl+C! Exiting program.')
+    print("\nYou pressed Ctrl+C! Exiting program.")
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -31,7 +31,7 @@ class QueryResult(BaseModel):
 
 # Define prompt generation function
 def generate_rag_prompt(query, context):
-    escaped_context = context.replace("'", " ").replace('"', ' ').replace('\n', ' ')
+    escaped_context = context.replace("'", " ").replace('"', " ").replace("\n", " ")
     prompt = f"""
 Based on the extracted information, answer the following question directly and in a focused manner:
 
@@ -76,10 +76,6 @@ def generate_answer(prompt):
 
 # Main program loop
 if __name__ == "__main__":
-    # Prompt the user for a query
-    print("Enter your query: ")
-    query = input()
-
     # Replace sample_texts with actual content from a PDF or other sources
     sample_texts = [
         "Sample text 1 for initializing the vector database.",
@@ -89,10 +85,24 @@ if __name__ == "__main__":
     # Initialize the vector DB with sample content
     vector_db = initialize_vector_db(sample_texts)
 
-    # Get context from the vector DB
-    context = get_relative_context_fromDB(query, vector_db)
+    while True:
+        try:
+            # Prompt the user for a query
+            print("\nEnter your query (or type 'exit' to quit): ")
+            query = input().strip()
 
-    # Generate a response
-    prompt = generate_rag_prompt(query, context)
-    response = generate_answer(prompt)
-    print(response)
+            # Exit the loop if the user types "exit"
+            if query.lower() == "exit":
+                print("Goodbye!")
+                break
+
+            # Get context from the vector DB
+            context = get_relative_context_fromDB(query, vector_db)
+
+            # Generate a response
+            prompt = generate_rag_prompt(query, context)
+            response = generate_answer(prompt)
+            print("\nResponse:")
+            print(response)
+        except Exception as e:
+            print(f"An error occurred: {e}")

@@ -17,11 +17,75 @@
         "documentation": {}
     },
     {
+        "label": "HuggingFaceEmbeddings",
+        "importPath": "langchain_community.embeddings",
+        "description": "langchain_community.embeddings",
+        "isExtraImport": true,
+        "detail": "langchain_community.embeddings",
+        "documentation": {}
+    },
+    {
         "label": "for Chroma",
         "importPath": "langchain_chroma import Chroma  # Updated",
         "description": "langchain_chroma import Chroma  # Updated",
         "isExtraImport": true,
         "detail": "langchain_chroma import Chroma  # Updated",
+        "documentation": {}
+    },
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "File",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "UploadFile",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "CORSMiddleware",
+        "importPath": "fastapi.middleware.cors",
+        "description": "fastapi.middleware.cors",
+        "isExtraImport": true,
+        "detail": "fastapi.middleware.cors",
+        "documentation": {}
+    },
+    {
+        "label": "Chroma",
+        "importPath": "langchain_chroma",
+        "description": "langchain_chroma",
+        "isExtraImport": true,
+        "detail": "langchain_chroma",
+        "documentation": {}
+    },
+    {
+        "label": "Chroma",
+        "importPath": "langchain_chroma",
+        "description": "langchain_chroma",
+        "isExtraImport": true,
+        "detail": "langchain_chroma",
         "documentation": {}
     },
     {
@@ -73,14 +137,6 @@
         "description": "langchain_huggingface",
         "isExtraImport": true,
         "detail": "langchain_huggingface",
-        "documentation": {}
-    },
-    {
-        "label": "Chroma",
-        "importPath": "langchain_chroma",
-        "description": "langchain_chroma",
-        "isExtraImport": true,
-        "detail": "langchain_chroma",
         "documentation": {}
     },
     {
@@ -156,11 +212,47 @@
         "documentation": {}
     },
     {
+        "label": "app",
+        "kind": 5,
+        "importPath": "ImportPDF",
+        "description": "ImportPDF",
+        "peekOfCode": "app = FastAPI()\n# Enable CORS for frontend communication\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"http://localhost:3000\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n# Initialize the vector database or connect if already exists",
+        "detail": "ImportPDF",
+        "documentation": {}
+    },
+    {
+        "label": "PERSIST_DIRECTORY",
+        "kind": 5,
+        "importPath": "ImportPDF",
+        "description": "ImportPDF",
+        "peekOfCode": "PERSIST_DIRECTORY = \"NEwMODELDB\"\nembeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\nvector_store = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings)\n@app.get(\"/pdf-count/\")\nasync def get_pdf_count(): \n    \"\"\"\n    Get the number of documents (PDFs or pages) stored in the vector database.\n    \"\"\"\n    try:\n        document_count = vector_store._collection.count()",
+        "detail": "ImportPDF",
+        "documentation": {}
+    },
+    {
+        "label": "embeddings",
+        "kind": 5,
+        "importPath": "ImportPDF",
+        "description": "ImportPDF",
+        "peekOfCode": "embeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\nvector_store = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings)\n@app.get(\"/pdf-count/\")\nasync def get_pdf_count(): \n    \"\"\"\n    Get the number of documents (PDFs or pages) stored in the vector database.\n    \"\"\"\n    try:\n        document_count = vector_store._collection.count()\n        return {\"pdf_count\": document_count}",
+        "detail": "ImportPDF",
+        "documentation": {}
+    },
+    {
+        "label": "vector_store",
+        "kind": 5,
+        "importPath": "ImportPDF",
+        "description": "ImportPDF",
+        "peekOfCode": "vector_store = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings)\n@app.get(\"/pdf-count/\")\nasync def get_pdf_count(): \n    \"\"\"\n    Get the number of documents (PDFs or pages) stored in the vector database.\n    \"\"\"\n    try:\n        document_count = vector_store._collection.count()\n        return {\"pdf_count\": document_count}\n    except Exception as e:",
+        "detail": "ImportPDF",
+        "documentation": {}
+    },
+    {
         "label": "QueryResult",
         "kind": 6,
         "importPath": "Output",
         "description": "Output",
-        "peekOfCode": "class QueryResult(BaseModel):\n    query: str\n# Define prompt generation function\ndef generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', ' ').replace('\\n', ' ')\n    prompt = f\"\"\"\nBased on the extracted information, answer the following question directly and in a focused manner:\nQuestion: {query}\nAnswer:\n    \"\"\"",
+        "peekOfCode": "class QueryResult(BaseModel):\n    query: str\n# Define prompt generation function\ndef generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', \" \").replace(\"\\n\", \" \")\n    prompt = f\"\"\"\nBased on the extracted information, answer the following question directly and in a focused manner:\nQuestion: {query}\nAnswer:\n    \"\"\"",
         "detail": "Output",
         "documentation": {}
     },
@@ -169,7 +261,7 @@
         "kind": 2,
         "importPath": "Output",
         "description": "Output",
-        "peekOfCode": "def signal_handler(sig, frame):\n    print('You pressed Ctrl+C! Exiting program.')\n    sys.exit(0)\nsignal.signal(signal.SIGINT, signal_handler)\n# Define data model for query result\nclass QueryResult(BaseModel):\n    query: str\n# Define prompt generation function\ndef generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', ' ').replace('\\n', ' ')",
+        "peekOfCode": "def signal_handler(sig, frame):\n    print(\"\\nYou pressed Ctrl+C! Exiting program.\")\n    sys.exit(0)\nsignal.signal(signal.SIGINT, signal_handler)\n# Define data model for query result\nclass QueryResult(BaseModel):\n    query: str\n# Define prompt generation function\ndef generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', \" \").replace(\"\\n\", \" \")",
         "detail": "Output",
         "documentation": {}
     },
@@ -178,7 +270,7 @@
         "kind": 2,
         "importPath": "Output",
         "description": "Output",
-        "peekOfCode": "def generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', ' ').replace('\\n', ' ')\n    prompt = f\"\"\"\nBased on the extracted information, answer the following question directly and in a focused manner:\nQuestion: {query}\nAnswer:\n    \"\"\"\n    return prompt\n# Define a function to embed and store initial data for queries\ndef initialize_vector_db(texts):",
+        "peekOfCode": "def generate_rag_prompt(query, context):\n    escaped_context = context.replace(\"'\", \" \").replace('\"', \" \").replace(\"\\n\", \" \")\n    prompt = f\"\"\"\nBased on the extracted information, answer the following question directly and in a focused manner:\nQuestion: {query}\nAnswer:\n    \"\"\"\n    return prompt\n# Define a function to embed and store initial data for queries\ndef initialize_vector_db(texts):",
         "detail": "Output",
         "documentation": {}
     },
@@ -205,7 +297,7 @@
         "kind": 2,
         "importPath": "Output",
         "description": "Output",
-        "peekOfCode": "def generate_answer(prompt):\n    try:\n        model = genai.GenerativeModel(model_name=\"gemini-1.5-flash\")\n        response = model.generate_content(prompt)\n        return response.text.strip() if response and response.text else \"No response generated.\"\n    except Exception as e:\n        return f\"Error generating answer: {e}\"\n# Main program loop\nif __name__ == \"__main__\":\n    # Prompt the user for a query",
+        "peekOfCode": "def generate_answer(prompt):\n    try:\n        model = genai.GenerativeModel(model_name=\"gemini-1.5-flash\")\n        response = model.generate_content(prompt)\n        return response.text.strip() if response and response.text else \"No response generated.\"\n    except Exception as e:\n        return f\"Error generating answer: {e}\"\n# Main program loop\nif __name__ == \"__main__\":\n    # Replace sample_texts with actual content from a PDF or other sources",
         "detail": "Output",
         "documentation": {}
     },
@@ -214,7 +306,7 @@
         "kind": 5,
         "importPath": "Output",
         "description": "Output",
-        "peekOfCode": "Google_API_key = os.getenv(\"GEMINI_API\")\nif Google_API_key:\n    genai.configure(api_key=Google_API_key)\nelse:\n    print(\"Error: Google API key not found. Please set GEMINI_API in the environment.\")\n    sys.exit(1)\n# Signal handler for clean exit\ndef signal_handler(sig, frame):\n    print('You pressed Ctrl+C! Exiting program.')\n    sys.exit(0)",
+        "peekOfCode": "Google_API_key = os.getenv(\"GEMINI_API\")\nif Google_API_key:\n    genai.configure(api_key=Google_API_key)\nelse:\n    print(\"Error: Google API key not found. Please set GEMINI_API in the environment.\")\n    sys.exit(1)\n# Signal handler for clean exit\ndef signal_handler(sig, frame):\n    print(\"\\nYou pressed Ctrl+C! Exiting program.\")\n    sys.exit(0)",
         "detail": "Output",
         "documentation": {}
     }
