@@ -48,7 +48,8 @@ def initialize_vector_db(texts):
         sys.exit(1)
     try:
         embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-        vector_db = Chroma.from_texts(texts=texts, embedding=embeddings, persist_directory="./AssignmentDB")
+         vector_db = Chroma.from_texts(texts=texts, embedding=embeddings, persist_directory="./AssignmentDB")
+        # vector_db = Chroma.from_texts(texts=texts, embedding=embeddings, persist_directory="./AnswerDB")
         return vector_db
     except Exception as e:
         print(f"Error initializing vector database: {e}")
