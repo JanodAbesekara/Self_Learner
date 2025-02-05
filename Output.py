@@ -6,9 +6,22 @@ from dotenv import load_dotenv
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 import google.generativeai as genai
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load environment variables
 load_dotenv()
+
+app = FastAPI()
+
+# CORS middleware configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins (Adjust if needed for security)
+    allow_credentials=True,
+    allow_methods=["*"],  
+    allow_headers=["*"],  
+)
 
 # Load Google API key for Gemini
 Google_API_key = os.getenv("GEMINI_API")
@@ -25,11 +38,11 @@ def signal_handler(sig, frame):
 
 signal.signal(signal.SIGINT, signal_handler)
 
-# Define data model for query result
-class QueryResult(BaseModel):
+# Define request body model
+class QueryRequest(BaseModel):
     query: str
 
-# Define prompt generation function
+# Function to generate the RAG (Retrieval-Augmented Generation) prompt
 def generate_rag_prompt(query, context):
     escaped_context = context.replace("'", " ").replace('"', " ").replace("\n", " ")
     prompt = f"""
@@ -41,21 +54,20 @@ Answer:
     """
     return prompt
 
-# Define a function to embed and store initial data for queries
+# Initialize vector database
 def initialize_vector_db(texts):
     if not texts:
         print("Error: No texts provided to initialize the vector database.")
         sys.exit(1)
     try:
         embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-         vector_db = Chroma.from_texts(texts=texts, embedding=embeddings, persist_directory="./AssignmentDB")
-        # vector_db = Chroma.from_texts(texts=texts, embedding=embeddings, persist_directory="./AnswerDB")
+        vector_db = Chroma.from_texts(texts=texts, embedding=embeddings, persist_directory="./UpdateVectorDB")
         return vector_db
     except Exception as e:
         print(f"Error initializing vector database: {e}")
         sys.exit(1)
 
-# Function to retrieve relevant context from the database
+# Retrieve relevant context from the database
 def get_relative_context_fromDB(query, vector_db):
     context = ""
     try:
@@ -66,7 +78,7 @@ def get_relative_context_fromDB(query, vector_db):
         print(f"Error retrieving context from database: {e}")
     return context
 
-# Generate an answer based on the prompt
+# Generate an answer using Gemini AI
 def generate_answer(prompt):
     try:
         model = genai.GenerativeModel(model_name="gemini-1.5-flash")
@@ -75,35 +87,30 @@ def generate_answer(prompt):
     except Exception as e:
         return f"Error generating answer: {e}"
 
-# Main program loop
+# Initialize the vector DB with sample content (Replace this with actual content)
+sample_texts = [
+    "Sample text 1 for initializing the vector database.",
+    "Sample text 2 containing relevant information for course queries."
+]
+vector_db = initialize_vector_db(sample_texts)
+
+# API Endpoint: Ask a Question
+@app.post("/ask")
+async def ask_question(request: QueryRequest):
+    query = request.query.strip()
+    if not query:
+        raise HTTPException(status_code=400, detail="Query cannot be empty")
+
+    # Retrieve context from the database
+    context = get_relative_context_fromDB(query, vector_db)
+
+    # Generate a response
+    prompt = generate_rag_prompt(query, context)
+    response = generate_answer(prompt)
+
+    return {"query": query, "response": response}
+
+# Run the FastAPI application
 if __name__ == "__main__":
-    # Replace sample_texts with actual content from a PDF or other sources
-    sample_texts = [
-        "Sample text 1 for initializing the vector database.",
-        "Sample text 2 containing relevant information for course queries."
-    ]
-
-    # Initialize the vector DB with sample content
-    vector_db = initialize_vector_db(sample_texts)
-
-    while True:
-        try:
-            # Prompt the user for a query
-            print("\nEnter your query (or type 'exit' to quit): ")
-            query = input().strip()
-
-            # Exit the loop if the user types "exit"
-            if query.lower() == "exit":
-                print("Goodbye!")
-                break
-
-            # Get context from the vector DB
-            context = get_relative_context_fromDB(query, vector_db)
-
-            # Generate a response
-            prompt = generate_rag_prompt(query, context)
-            response = generate_answer(prompt)
-            print("\nResponse:")
-            print(response)
-        except Exception as e:
-            print(f"An error occurred: {e}")
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8010)

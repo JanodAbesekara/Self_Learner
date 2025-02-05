@@ -89,12 +89,46 @@
         "documentation": {}
     },
     {
+        "label": "Chroma",
+        "importPath": "langchain_chroma",
+        "description": "langchain_chroma",
+        "isExtraImport": true,
+        "detail": "langchain_chroma",
+        "documentation": {}
+    },
+    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "os",
         "description": "os",
         "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "io",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "io",
+        "description": "io",
+        "detail": "io",
+        "documentation": {}
+    },
+    {
+        "label": "HuggingFaceEmbeddings",
+        "importPath": "langchain.embeddings",
+        "description": "langchain.embeddings",
+        "isExtraImport": true,
+        "detail": "langchain.embeddings",
         "documentation": {}
     },
     {
@@ -248,6 +282,60 @@
         "documentation": {}
     },
     {
+        "label": "fetch_pdf_from_url",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def fetch_pdf_from_url(url):\n    try:\n        response = requests.get(url)\n        response.raise_for_status()  # Ensure the request was successful\n        return io.BytesIO(response.content)  # Return as a file-like object\n    except requests.exceptions.RequestException as e:\n        print(f\"Error fetching PDF: {e}\")\n        return None\n# Function to extract text from a PDF file\ndef extract_text_from_pdf(pdf_file):",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "extract_text_from_pdf",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def extract_text_from_pdf(pdf_file):\n    try:\n        reader = PyPDF2.PdfReader(pdf_file)\n        all_text = [reader.pages[p].extract_text() for p in range(len(reader.pages))]\n        return all_text\n    except Exception as e:\n        print(f\"Error reading PDF: {e}\")\n        return []\n# Embedding function\ndef embed_data(data, embeddings):",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "embed_data",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def embed_data(data, embeddings):\n    return embeddings.embed_documents(data)\n# URLs of the PDFs\npdf_urls = [\n    \"https://firebasestorage.googleapis.com/v0/b/bytetcms.appspot.com/o/PDF%2F1720765368602_Handbook_of_Product_and_Service_Developm.pdf?alt=media&token=2d8f6a6c-c0bc-457e-a85e-abc4f8461f34\", \n]\n# Initialize embedding model\nembeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\n# Initialize variables for storing all text and embeddings\nall_texts = []",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "pdf_urls",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "pdf_urls = [\n    \"https://firebasestorage.googleapis.com/v0/b/bytetcms.appspot.com/o/PDF%2F1720765368602_Handbook_of_Product_and_Service_Developm.pdf?alt=media&token=2d8f6a6c-c0bc-457e-a85e-abc4f8461f34\", \n]\n# Initialize embedding model\nembeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\n# Initialize variables for storing all text and embeddings\nall_texts = []\nfor url in pdf_urls:\n    print(f\"Processing PDF from URL: {url}\")\n    pdf_file = fetch_pdf_from_url(url)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "embeddings",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "embeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\n# Initialize variables for storing all text and embeddings\nall_texts = []\nfor url in pdf_urls:\n    print(f\"Processing PDF from URL: {url}\")\n    pdf_file = fetch_pdf_from_url(url)\n    if pdf_file:\n        extracted_text = extract_text_from_pdf(pdf_file)\n        if extracted_text:\n            all_texts.extend(extracted_text)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "all_texts",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "all_texts = []\nfor url in pdf_urls:\n    print(f\"Processing PDF from URL: {url}\")\n    pdf_file = fetch_pdf_from_url(url)\n    if pdf_file:\n        extracted_text = extract_text_from_pdf(pdf_file)\n        if extracted_text:\n            all_texts.extend(extracted_text)\n        else:\n            print(f\"No text extracted from: {url}\")",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
         "label": "QueryResult",
         "kind": 6,
         "importPath": "Output",
@@ -279,7 +367,7 @@
         "kind": 2,
         "importPath": "Output",
         "description": "Output",
-        "peekOfCode": "def initialize_vector_db(texts):\n    if not texts:\n        print(\"Error: No texts provided to initialize the vector database.\")\n        sys.exit(1)\n    try:\n        embeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\n        vector_db = Chroma.from_texts(texts=texts, embedding=embeddings, persist_directory=\"./AssignmentDB\")\n        return vector_db\n    except Exception as e:\n        print(f\"Error initializing vector database: {e}\")",
+        "peekOfCode": "def initialize_vector_db(texts):\n    if not texts:\n        print(\"Error: No texts provided to initialize the vector database.\")\n        sys.exit(1)\n    try:\n        embeddings = HuggingFaceEmbeddings(model_name=\"sentence-transformers/all-MiniLM-L6-v2\")\n         vector_db = Chroma.from_texts(texts=texts, embedding=embeddings, persist_directory=\"./AssignmentDB\")\n        # vector_db = Chroma.from_texts(texts=texts, embedding=embeddings, persist_directory=\"./AnswerDB\")\n        return vector_db\n    except Exception as e:",
         "detail": "Output",
         "documentation": {}
     },
